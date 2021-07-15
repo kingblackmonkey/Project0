@@ -1,3 +1,3 @@
 # Project0
 
-Bank apllication without front end techs
+JAVA Bank apllication without front end techs

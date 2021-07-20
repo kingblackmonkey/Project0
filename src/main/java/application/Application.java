@@ -6,6 +6,7 @@ import model.Customer;
 import model.Employee;
 import model.User;
 import service.BankService;
+import service.EmployeeService;
 import service.UserService;
 
 
@@ -14,6 +15,10 @@ public class Application {
 	public static  void main(String[] args) {
 		// TODO Auto-generated method stub
 		Scanner in = new Scanner(System.in);
+		
+	      UserService userService = new  UserService();
+			 	 BankService bankService = new  BankService();
+			 	EmployeeService employeeService = new EmployeeService();	 
 		
 
 //		System.out.print("Please enter you first name: ");
@@ -30,10 +35,10 @@ public class Application {
 //		in.close();
 		//in user carry the list of users
 		User user = new User();
-//		get all user first
+//		get all user first from database to check for existing username for sign up functionality
 		System.out.println(user.getAllUsers());
-		
-		
+//		employee view deposit and withdraws transactions
+		 employeeService.viewDepositAndWithdrawTransactions();
 
 	/*	
 //	sign up scanner
@@ -55,9 +60,10 @@ public class Application {
 		 
 	*/
 		
-		
+		/*		
 		 //sign in scanner
-		 UserService userService = new  UserService();
+		
+	
 		 
 	 System.out.println("Please enter your user name: ");
 		String username = in.nextLine();
@@ -66,12 +72,16 @@ public class Application {
 		Customer signedInCustomer =   (Customer) userService.customerLogin(username, password);
 		 System.out.println(signedInCustomer);
 	
-
+      */
  
 //		 in.close();  you dont close here yet cause scanner  in employee  approve methoed will close it	 
 
+		
+		
+		
+		
 		 //		 customer create bank account
-		 	 BankService bankService = new  BankService();
+		 
 //		 bankService.customerCreateBankAccount(signedInCustomer.getId());
 		 	 
 //		 	 bankService.customerCreateBankAccount(8);
@@ -80,7 +90,7 @@ public class Application {
 		 	 
 		 	 // get a bank account by a user and deposit \
 		 	 
-//		 	Bank bankAccount = bankService.getBankAccountByuser(4); 
+//		 	Bank bankAccount = bankService.getBankAccountByuser(8); 
 //		 	bankService.deposit( bankAccount, 100);
 		 	
 //		 	System.out.println(	bankService.deposit( bankAccount, 100));
@@ -94,17 +104,19 @@ public class Application {
 		 	 
 		 	 
 		 	 
-		 	 //		 	 user to tranfer money
+		 	 //	------	 	 user to tranfer money
 //get list of recievers
 		 	 //show to console
 	
 		 	 
-		 	 /* 	 	  
+		 	 /* 	
+		 	  
+//		 	 this function receive a sender get back all receiver customer  but not employee and sender	  
 	 	System.out.println(	userService.getAllUsersExeptSenderAndEmployee(4));
 		 	
 	try {
 		
-		 //ask to choose a receiver
+		 //ask to choose a receiver customer id
 		 System.out.println("Please choose receiver: ");
 			int receiver = in.nextInt();
 			
@@ -116,7 +128,7 @@ public class Application {
 		 	 
 		
 		 	 
-		 	 System.out.println( 	bankService.transfer(1, receiver, amount));  
+		 	 System.out.println( 	bankService.transfer(4, receiver, amount));  
 		
 		
 		

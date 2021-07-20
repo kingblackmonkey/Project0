@@ -329,7 +329,7 @@ public User login (  String username,  String password) throws SQLException {
 	@Override
 	public String toString() {
 		return "User [ id=" + id + ", firstName = " + first_name + ", lastName = " +last_name + ", username = " + username
-				+    ", typeOfUser = " +  typeOfUser  + ", password = " + password +  " ]";
+				+    ", typeOfUser = " +  typeOfUser  + ", password = " + password +  " ] " + "\n";
 	}
 
 

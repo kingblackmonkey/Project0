@@ -10,5 +10,13 @@ public class EmployeeService {
 		Employee employee = new Employee();
 		  employee.approve();
 	}
+	
+	
+	public void viewDepositAndWithdrawTransactions() {
+		
+		Employee employee = new Employee();
+		
+		employee.viewDepositAndWithdrawTransactions();
+	}
 
 }

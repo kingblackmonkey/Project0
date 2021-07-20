@@ -1,5 +1,7 @@
 package service;
 
+import java.util.List;
+
 import model.Bank;
 
 public class BankService {
@@ -37,4 +39,25 @@ public class BankService {
 		bankAccount =    bankAccount.deposit(bankAccount, depositAmount);
 		return bankAccount;
 	}
+	
+	public Bank withdraw(Bank bankAccount,int withdrawAmount) {
+		
+
+					bankAccount =    bankAccount.withdraw (bankAccount,  withdrawAmount);
+	
+		
+						return bankAccount;
+	}
+	
+	public List <Bank>  transfer(int sender, int receiver, int amount ) {
+		
+
+		Bank bankAccount = new Bank();
+		
+		return bankAccount.transfer(sender, receiver, amount);
+
+
+		
+  }
+
 }

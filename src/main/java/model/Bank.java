@@ -13,6 +13,8 @@ import java.util.Random;
 
 
 import exceptions.AccountNumberAlreadyExist;
+import exceptions.InsufficientFund;
+import exceptions.InsufficientFundToTransfer;
 import fileIO.ConnectionUtil;
 
 
@@ -124,8 +126,8 @@ public void checkDuplicateBankAccount(Bank generatedBankAccount, int customer_id
 //		check if account exist
 		for(int i=0; i<accounts.size(); i++) {
 			Bank account = accounts.get(i);
-			System.out.println(account.getCustomer_id());
-			System.out.println(customer_id);
+//			System.out.println(account.getCustomer_id());
+//			System.out.println(customer_id);
 			if(account.getAccount_number() ==  generatedBankAccount.getAccount_number() || account.getCustomer_id() == customer_id ) {
 				throw new AccountNumberAlreadyExist();
 			}
@@ -263,9 +265,163 @@ public Bank getBankAccountByuser(int user_id) {
 	}
 
 
+	
+	//withdraw
+	public Bank withdraw (Bank bankAccount,int withdrawAmount) {
+		
+		
+		try {
+			
+
+			//add money transaction in widrawal and deposit table
+	  
+			
+			Connection con = conUtil.getConnection();			
+
+			
+			String sql = "insert into depositAndWithdraw (withdraw, customer_id) values"
+					+ "(?,?)";
+			PreparedStatement ps = con.prepareStatement(sql);
+			
+			ps.setInt(1, - withdrawAmount);    
+			ps.setInt(2, bankAccount.getCustomer_id());
+		
+			
+			ps.execute();
+			
+			//check if balance is less than 
+			if(withdrawAmount >  bankAccount.getBalance() ||  bankAccount.getBalance() <= 0  ) {
+				
+				throw new InsufficientFund();
+				
+			}
+			
+			
+	
+			//adding deposit to bank account
+			
+			bankAccount.setBalance(- withdrawAmount + bankAccount.getBalance());
+			
+			
+			//create query to update bank account using bank account
+			
+			 sql = "UPDATE bankAccount SET balance = ?"
+					+ " WHERE bankAccount.account_id = ?";
+			
+			      ps = con.prepareStatement(sql);
+			
+			ps.setInt(1,  bankAccount.getBalance());
+			ps.setInt(2,  bankAccount.getAccount_id());
+		
+			
+			ps.execute();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		// return calculated balance bank account
+		return bankAccount;
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+//transfer	money
+	
+	public  List<Bank> transfer(int sender, int receiver, int amount){
+		
+		
+		List<Bank> bankAccountsList = new ArrayList<Bank>();
+		
+//		recieve sender id, recevier id , amount 
+		
+		try {
+			Connection con = conUtil.getConnection();
+	
+		
+//			insert to transer table transfer transaction
+			
+			String sql = "insert into transfer (sender_id , reciever_id , amount) values"
+					+ "(?,?,?)";
+			PreparedStatement ps = con.prepareStatement(sql);
+			
+			ps.setInt(1, sender);    
+			ps.setInt(2, receiver);
+			ps.setInt(3, amount);
+			
+			ps.execute();
+
+			
+	//update the account balance of sender and receiver
+			
+		
+			
+        //calculate			
+			//get sender  bank account
+		Bank senderAccount = 	this.getBankAccountByuser(sender);
+		
+		if(amount > senderAccount.getBalance() || senderAccount.getBalance() <= 0) {
+			
+			throw new  InsufficientFundToTransfer();
+			
+		}
+		
+			//get sender balance and add up the amount
+		senderAccount.setBalance(senderAccount.getBalance() - amount);
+		
+		//get  receiver bank account
+			
+		Bank receiverAccount = 	this.getBankAccountByuser(receiver);
+		//get receiver balance and minus the amount
+		receiverAccount.setBalance(receiverAccount.getBalance() + amount);
+		
+		//update sender account
+		
+		 sql = "UPDATE bankAccount SET balance = ?"
+					+ " WHERE bankAccount.customer_id = ?";
+			
+			      ps = con.prepareStatement(sql);
+			
+			ps.setInt(1, senderAccount.getBalance());
+			ps.setInt(2, sender);
+		
+			
+			ps.execute();
+			//update receviver account	
+			
+			
+			 sql = "UPDATE bankAccount SET balance = ?"
+						+ " WHERE bankAccount.customer_id = ?";
+				
+				      ps = con.prepareStatement(sql);
+				
+				ps.setInt(1, receiverAccount.getBalance());
+				ps.setInt(2, receiver);
+			
+				
+				ps.execute();
+				
+				bankAccountsList.add(senderAccount);
+				bankAccountsList.add(receiverAccount);
+			
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return bankAccountsList;
+		
+		
+		
+	}
+	
 	@Override
 	public String toString() {
-		return "bank account [id=" + account_id + ",account_number=" + account_number + ",.balance=" + balance + ",  customer_id=" +  customer_id
+		return "bank account [id=" + account_id + ",account_number=" + account_number + ", balance=" + balance + ",  customer_id=" +  customer_id
 				+   "]";
 	}
 

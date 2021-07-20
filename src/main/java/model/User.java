@@ -50,7 +50,7 @@ private  String password;
 //create users from input console constructor
 	public  User(String  first_name, String last_name, String  password) {
 		
-		this. first_name =  first_name;
+		this.first_name =  first_name;
 		this.last_name = last_name;
 		this.username =  first_name +  last_name + (new Random().nextInt(9000)+1000);
 		this.password =  password;
@@ -114,6 +114,36 @@ public List<User> getAllUsers() {
 }
 	
 
+public List<User> getAllUsersExeptSenderAndEmployee(int sender) {
+	
+	List<User> userList = new ArrayList<User>();
+	
+	try {
+		Connection con = conUtil.getConnection();
+		//To create a simple statment we write our query as a string
+		String sql = "SELECT * FROM users where users.id !=" + sender+ "and users.typeOfUser="+ "'" +"customer'";
+		
+		//We need to create a statement with this sql string
+		Statement s = con.createStatement();
+		ResultSet rs = s.executeQuery(sql);
+		
+		while(rs.next()) {
+			userList.add(new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)));
+		}
+
+		
+		
+		return userList;
+		
+	} catch(SQLException e) {
+		e.printStackTrace();
+	}
+	
+	return null;
+	
+}
+	
+
 
 //sign up 
 	
@@ -160,7 +190,7 @@ public User signUp (User customer, User user) throws SQLException {
 public User login (  String username,  String password) throws SQLException {
 	//create a user 
 	
-	User user = this;
+//	User user = this;
 	
 	//rececie user name and pas word
 	//make connection
@@ -179,24 +209,30 @@ public User login (  String username,  String password) throws SQLException {
 
 	//if no user then id is default zero 
 	while(rs.next()) {
-		user.setId(rs.getInt(1));
-		user.setFirst_name(rs.getString(2));
-		user.setLast_name(rs.getString(3));
-		user.setUsername(rs.getString(4));
-		user. setTypeOfUser(rs.getString(5));
-		user.setPassword(rs.getString(6));
+		this.setId(rs.getInt(1));
+		this.setFirst_name(rs.getString(2));
+		this.setLast_name(rs.getString(3));
+		this.setUsername(rs.getString(4));
+		
+	
+		this.setTypeOfUser(rs.getString(5));
+		this.setPassword(rs.getString(6));
+		
+		
 	}
 	
 	//throw invalid credentials
 	
-	if(user.getId() == 0) {
+	if(this.getId() == 0) {
 	
 		throw new InvalidCredentials();
 	
 	}
 //return user ; this means user sucessful logging in
 //	 System.out.println(user.getUsername());
-	return user;
+	
+	
+	return this;
 }
 
 
@@ -292,8 +328,8 @@ public User login (  String username,  String password) throws SQLException {
 	
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", firstName=" + first_name + ", lastName=" +last_name + ", username=" + username
-				+  ", password=" + password +  "]";
+		return "User [ id=" + id + ", firstName = " + first_name + ", lastName = " +last_name + ", username = " + username
+				+    ", typeOfUser = " +  typeOfUser  + ", password = " + password +  " ]";
 	}
 
 

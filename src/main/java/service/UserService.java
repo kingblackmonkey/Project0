@@ -1,6 +1,7 @@
 package service;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import model.Customer;
 import model.User;
@@ -12,7 +13,7 @@ public class UserService {
 	
 	public Customer customerSignup(String first_name, String  last_name, String password,User user ) {
 	Customer customer = new Customer(first_name, last_name, password);
-		
+//		System.out.println(customer);
 	// call customer sign up 
 	    Customer newCreatedCustomer = null;
 		try {
@@ -32,6 +33,7 @@ public class UserService {
 	public Customer customerLogin( String username,String password) {
 		
 		Customer customer  = new Customer();
+		
 		  Customer signedInCustomer = null;
 		try {
 			signedInCustomer =(Customer) customer.login(username, password);
@@ -43,4 +45,28 @@ public class UserService {
 		return signedInCustomer;
 	}
 //	return user ->custmer to apllication
+	
+	
+	
+	
+	public List<User> getAllUsersExeptSenderAndEmployee(int sender){
+		
+		User user = new User();
+		return  user.getAllUsersExeptSenderAndEmployee(sender);
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

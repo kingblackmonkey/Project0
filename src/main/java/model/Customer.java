@@ -10,7 +10,7 @@ public class Customer  extends User   {
 	 */
 //	private static final long serialVersionUID = 1L;
 	
-	private String typeOfUser = "customer";
+
 	
 	public Customer() {super();}
 	
@@ -18,16 +18,16 @@ public class Customer  extends User   {
 		
 		super(first_name, last_name, password);
 		
-		
+		this.setTypeOfUser("customer");
 	}
 
-	public String getTypeOfUser() {
-		return typeOfUser;
-	}
+//	public String getTypeOfUser() {
+//		return typeOfUser;
+//	}
 
-	public void setTypeOfUser(String typeOfUser) {
-		this.typeOfUser = typeOfUser;
-	}
+//	public void setTypeOfUser(String typeOfUser) {
+//		this.typeOfUser = typeOfUser;
+//	}
 
 
 

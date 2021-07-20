@@ -1,6 +1,7 @@
 package model;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import exceptions.InvalidCredentials;
 import exceptions.UserNameAlreadyExistsException;
 
 //import com.example.exceptions.UserNameAlreadyExistsException;
@@ -42,9 +44,7 @@ private String typeOfUser;
 private  String password;
 
 
-public User() {
-	
-}
+
 
 
 //create users from input console constructor
@@ -75,6 +75,14 @@ public  User(int id  ,String  first_name, String last_name, String username,   S
 	
 	
 	
+
+
+public User() {
+	// TODO Auto-generated constructor stub
+}
+
+
+
 public List<User> getAllUsers() {
 	
 	List<User> userList = new ArrayList<User>();
@@ -106,14 +114,11 @@ public List<User> getAllUsers() {
 }
 	
 
-	public int getId() {
-	return id;
-}
 
 //sign up 
 	
 	
-public User signUp (User customer, User user) {
+public User signUp (User customer, User user) throws SQLException {
 	
 	
 	//Check to see if the users username already exist
@@ -133,12 +138,79 @@ public User signUp (User customer, User user) {
 	user.users.add(customer);
 	
 //	should add new row to user table in db before return user
+	Connection con = conUtil.getConnection();
+	String sql = "insert into users(first_name, last_name,  username, typeOfUser ,password) values"
+			+ "(?,?,?,?,?)";
+	PreparedStatement ps = con.prepareStatement(sql);
 	
+	ps.setString(1, customer.getFirst_name());
+	ps.setString(2, customer.getLast_name());
+	ps.setString(3, customer.getUsername());
+	ps.setString(4,customer.getTypeOfUser());
+	ps.setString(5, customer.getPassword());
+	
+	ps.execute();
 //	return new created user after checking for existing user
 	return customer;
 }
 
 
+//login 
+
+public User login (  String username,  String password) throws SQLException {
+	//create a user 
+	
+	User user = this;
+	
+	//rececie user name and pas word
+	//make connection
+	Connection con = conUtil.getConnection();
+	//make a query to get the user name where pass word and user name match
+	String sql = "SELECT * FROM users WHERE users.username = '" + username + "'" + "and users.password= '"  + password + "'" ;
+
+//	System.out.println(sql);
+//	String sql = "SELECT * FROM users WHERE users.username  = ? and user.password= ?";
+//	PreparedStatement ps = con.prepareStatement(sql);
+//	ps.setString(1, username);
+//	ps.setString(2, password);
+//	ResultSet rs =  ps.execute(); =>this function return boolean but i want result set
+	Statement s = con.createStatement();
+	ResultSet rs = s.executeQuery(sql);
+
+	//if no user then id is default zero 
+	while(rs.next()) {
+		user.setId(rs.getInt(1));
+		user.setFirst_name(rs.getString(2));
+		user.setLast_name(rs.getString(3));
+		user.setUsername(rs.getString(4));
+		user. setTypeOfUser(rs.getString(5));
+		user.setPassword(rs.getString(6));
+	}
+	
+	//throw invalid credentials
+	
+	if(user.getId() == 0) {
+	
+		throw new InvalidCredentials();
+	
+	}
+//return user ; this means user sucessful logging in
+//	 System.out.println(user.getUsername());
+	return user;
+}
+
+
+
+
+
+
+
+	public void setId(int id) {
+	this.id = id;
+}
+	public int getId() {
+	return id;
+}
 
 
 	public String getFirst_name() {
@@ -162,6 +234,8 @@ public User signUp (User customer, User user) {
 	public void setLast_name(String last_name) {
 		this.last_name = last_name;
 	}
+
+
 
 
 

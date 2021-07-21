@@ -19,4 +19,20 @@ public class EmployeeService {
 		employee.viewDepositAndWithdrawTransactions();
 	}
 
+
+	public void viewAllTransferTransaction() {
+		
+		Employee employee = new Employee();
+		employee.viewAllTransferTransaction();
+	} 
+
+public void  viewAllBankAccounts() {
+	
+	Employee employee = new Employee();
+	employee.viewAllBankAccounts();
+	
+}
+
+
+
 }

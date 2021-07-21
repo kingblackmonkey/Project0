@@ -115,5 +115,135 @@ public class Employee extends User {
 		
 		
 	}
+	
+	
+	
+	
+	
+	
+	public void viewAllTransferTransaction() {
+		
+		//execute the sql query and get result back 
+		List< AllTransferTransaction > transferTransactions = new ArrayList< AllTransferTransaction >();
+		
+		try {
+			Connection con = conUtil.getConnection();
+			//To create a simple statment we write our query as a string
+			
+			String sql = "select * from transfer  ;";
+			
+			//We need to create a statement with this sql string
+			Statement s = con.createStatement();
+			ResultSet rs = s.executeQuery(sql);
+			
+			while(rs.next()) {
+				transferTransactions.add(	new  AllTransferTransaction (  rs.getInt(1),  rs.getInt(2),   rs.getInt(3), rs.getInt(4) ) );
+			}
+			
+			
+
+			//loop through tranfer transaction list has alltransfer intance
+			for(int i = 0; i<transferTransactions.size(); i++ ) {
+				
+				transferTransactions.get(i).setSender( new User().getAuser(transferTransactions.get(i).getSenderId())          );
+				transferTransactions.get(i).setReciever( new User().getAuser(transferTransactions.get(i).getRecieverId())          );
+				
+			}
+			
+			//each  alltranfer instance has prop sender and reveiver
+//			
+//			and create user instance then 
+		
+	
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+				System.out.println(transferTransactions);
+		
+		
+		
+		//call the view deposit and withdraw transactions class to create instance of its class and display the deposit and withdraw transactions
+		
+		
+	}
+
+	
+	
+	
+	
+	
+	public void viewAllBankAccounts() {
+		
+		
+
+		//execute the sql query and get result back 
+		List< ViewAllBankAccounts > bankAccountsList = new ArrayList<  ViewAllBankAccounts >();
+		
+		try {
+			Connection con = conUtil.getConnection();
+		
+			
+			String sql = "select * from users  inner join bankAccount on  users.id  = bankAccount.customer_id ;";
+			
+			//We need to create a statement with this sql string
+			Statement s = con.createStatement();
+			ResultSet rs = s.executeQuery(sql);
+			
+			while(rs.next()) {
+				 bankAccountsList.add(	new   ViewAllBankAccounts (  rs.getInt(1),  rs.getString(2),   rs.getString(3), rs.getString(4)  ,   rs.getString(5), rs.getString(6), rs.getInt(7), rs.getInt(8) ,     rs.getInt(9)                                              ) );
+			}
+			
+			
+
+
+
+		
+	
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+				System.out.println( bankAccountsList);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

@@ -81,7 +81,37 @@ public User() {
 	// TODO Auto-generated constructor stub
 }
 
+//get a user
+public User getAuser(int userId) {
+	
+	List<User>userList= new ArrayList<User>();
+	try {
+		Connection con = conUtil.getConnection();
 
+		
+		
+		String sql = "SELECT * FROM  users where id =" + "'" + userId + "';" ;
+		Statement s = con.createStatement();
+		ResultSet rs = s.executeQuery(sql);
+		
+		while(rs.next()) {
+			userList.add(new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)));
+		}
+		
+
+		
+
+		
+		
+		
+		
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
+
+	
+	return userList.get(0);
+}
 
 public List<User> getAllUsers() {
 	
@@ -113,6 +143,8 @@ public List<User> getAllUsers() {
 	
 }
 	
+
+
 
 public List<User> getAllUsersExeptSenderAndEmployee(int sender) {
 	

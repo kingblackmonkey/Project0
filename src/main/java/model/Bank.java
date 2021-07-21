@@ -15,6 +15,7 @@ import java.util.Random;
 import exceptions.AccountNumberAlreadyExist;
 import exceptions.InsufficientFund;
 import exceptions.InsufficientFundToTransfer;
+import exceptions.NoBankAccountFound;
 import fileIO.ConnectionUtil;
 
 
@@ -101,7 +102,8 @@ public void createbank (int customer_id) {
 }
 
 
-//check for dudplicate bank account
+//check for dudplicate bank account check both account number or customer id
+//one customer can only have one bank account
 public void checkDuplicateBankAccount(Bank generatedBankAccount, int customer_id) {
 	
 
@@ -190,6 +192,9 @@ public Bank getBankAccountByuser(int user_id) {
 		if(bankAccounts.size() != 0) {
 				Bank bankAccount = bankAccounts.get(0);
 			return bankAccount;
+		}else {
+			
+			throw new NoBankAccountFound();
 		}	
 		
 		
@@ -422,7 +427,7 @@ public Bank getBankAccountByuser(int user_id) {
 	@Override
 	public String toString() {
 		return "bank account [id=" + account_id + ",account_number=" + account_number + ", balance=" + balance + ",  customer_id=" +  customer_id
-				+   "]";
+				+   "]" + "\n";
 	}
 
 

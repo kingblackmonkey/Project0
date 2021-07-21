@@ -40,7 +40,7 @@ public class Employee extends User {
 //	anny number enter will be converted to string so the catch block can not catch the type exception
 //		    when it  expects int but string entered then catch block can catch exception
 			String decisionString = in.nextLine();
-			 in.close();
+//			 in.close();
 			
 			
 			switch (decisionString) {
@@ -71,7 +71,7 @@ public class Employee extends User {
 			
 		}
 		
-		System.out.println("Employee approved ");
+		System.out.println("Employee approved " + "\n");
 		
 		
 	}

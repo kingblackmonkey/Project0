@@ -100,7 +100,7 @@ public class Application {
 						 			{
 						 			     case "1":
 						 			    	 
-						 			    	System.out.println("code block in apply bank option runs ");	
+//						 			    	System.out.println("code block in apply bank option runs ");	
 						 			    	 
 						 			    //apply for bank account
 						 					 bankService.customerCreateBankAccount(signedInCustomer.getId()); 
@@ -113,13 +113,13 @@ public class Application {
 						 				 	 
 					 				 	     bankAccount = bankService.getBankAccountByuser(signedInCustomer.getId()); 
 						 			    	 
-					 				 	   System.out.println("Please enter your deposit amount ");	
+					 				 	   System.out.println("Please enter your deposit amount " + "\n");	
 					 				 	   amountStr = in.nextLine();	
 					 				 	 amount =Integer.parseInt(amountStr);  
 
 					 		
 						 				 	System.out.println(	bankService.deposit( bankAccount, amount));
-						 				 	System.out.println("Deposit Successful! ");	
+						 				 	System.out.println("Deposit Successful! " + "\n");	
 						 			    	 break;
 						 			  
 						 			     case "3":
@@ -127,14 +127,14 @@ public class Application {
 						 			    	 
 						 			    	    bankAccount = bankService.getBankAccountByuser(signedInCustomer.getId()); 
 						 			    	
-						 				 	   System.out.println("Please enter your withdraw amount ");	
+						 				 	   System.out.println("Please enter your withdraw amount " + "\n");	
 							 				 	  amountStr = in.nextLine();	
 							 				 	 amount =Integer.parseInt(amountStr); 					 				 
 						 			    	    
 						 			    	    
 						 			    	    System.out.println(	bankService.withdraw( bankAccount,  amount));
 						 			    	    
-						 			    	   System.out.println("withDraw Successful! ");	
+						 			    	   System.out.println("withDraw Successful! " + "\n");	
 						 			    	
 						 			    	    break;
 						 			    

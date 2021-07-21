@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import logging.Logging;
+
 import exceptions.InvalidCredentials;
 import exceptions.UserNameAlreadyExistsException;
 
@@ -256,7 +258,7 @@ public User login (  String username,  String password) throws SQLException {
 	//throw invalid credentials
 	
 	if(this.getId() == 0) {
-	
+		 Logging.logger.warn("User tried to login with no match username and password");
 		throw new InvalidCredentials();
 	
 	}
